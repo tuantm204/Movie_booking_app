@@ -1,4 +1,4 @@
-package com.example.movie_booking_app.ui.screens
+package com.example.movie_booking_app.ui.components
 
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
@@ -20,7 +20,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale

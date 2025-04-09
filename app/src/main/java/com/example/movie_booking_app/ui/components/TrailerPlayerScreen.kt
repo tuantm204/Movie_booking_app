@@ -1,4 +1,4 @@
-package com.example.movie_booking_app.ui.screens
+package com.example.movie_booking_app.ui.components
 
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
@@ -15,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.example.movie_booking_app.utils.getAutoPlayUrl
 

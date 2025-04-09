@@ -1,4 +1,4 @@
-package com.example.movie_booking_app.ui.screens
+package com.example.movie_booking_app.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

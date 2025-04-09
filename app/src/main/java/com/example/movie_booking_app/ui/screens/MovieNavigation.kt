@@ -13,6 +13,8 @@ import androidx.navigation.navArgument
 import com.example.movie_booking_app.data.repository.AuthState
 import com.example.movie_booking_app.data.repository.AuthViewModel
 import com.example.movie_booking_app.data.repository.MovieViewModel
+import com.example.movie_booking_app.ui.components.AllNewsScreen
+import com.example.movie_booking_app.ui.components.AllVideosScreen
 import com.example.movie_booking_app.ui.screens.Auth.LoginScreen
 import com.example.movie_booking_app.ui.screens.Auth.RegisterScreen
 import com.example.movie_booking_app.ui.screens.Home.Home
