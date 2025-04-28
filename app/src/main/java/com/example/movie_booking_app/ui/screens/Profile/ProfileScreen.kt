@@ -32,8 +32,8 @@ fun ProfileScreen(
     onTransactionHistoryClick: () -> Unit = {},
     onLogoutClick: () -> Unit = {}
 ) {
-    val primaryRed = Color(0xFFE71A0F)  // Màu đỏ chính của CGV
-    val darkGray = Color(0xFF333333)    // Màu xám tối cho text
+    val primaryRed = Color(0xFFE71A0F)
+    val darkGray = Color(0xFF333333)
 
     // Lấy thông tin user hiện tại từ AuthViewModel
     val authState by authViewModel.authState.collectAsState()
@@ -46,8 +46,6 @@ fun ProfileScreen(
     // State để lưu thông tin chi tiết của user từ Firestore
     var userDetails by remember { mutableStateOf<Map<String, Any>?>(null) }
     var isLoading by remember { mutableStateOf(true) }
-
-    // Lấy thông tin chi tiết từ Firestore
     LaunchedEffect(user?.uid) {
         user?.uid?.let { userId ->
             try {
@@ -57,7 +55,6 @@ fun ProfileScreen(
                     userDetails = document.data
                 }
             } catch (e: Exception) {
-                // Xử lý lỗi
             } finally {
                 isLoading = false
             }
@@ -124,7 +121,6 @@ fun ProfileScreen(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // Tên người dùng
                     Text(
                         text = user.displayName ?: "Người dùng",
                         fontSize = 24.sp,
@@ -132,7 +128,6 @@ fun ProfileScreen(
                         color = darkGray
                     )
 
-                    // Thẻ thành viên
                     Card(
                         modifier = Modifier.padding(vertical = 8.dp),
                         shape = RoundedCornerShape(16.dp),
@@ -150,7 +145,6 @@ fun ProfileScreen(
 
                     Spacer(modifier = Modifier.height(32.dp))
 
-                    // Menu tùy chọn
                     MenuOption(
                         icon = Icons.Default.Person,
                         title = "Thông tin cá nhân",
@@ -200,7 +194,6 @@ fun ProfileScreen(
                     }
                 }
             } else {
-                // Nếu không có user (không đáng xảy ra vì đã kiểm tra auth)
                 Text(
                     "Vui lòng đăng nhập để xem thông tin",
                     modifier = Modifier.align(Alignment.Center),

@@ -85,7 +85,6 @@ fun PersonalInfoScreen(
         }
     }
 
-    // Hàm lưu thông tin đã chỉnh sửa
     fun saveUserDetails() {
         user?.uid?.let { userId ->
             isSaving = true
@@ -104,8 +103,6 @@ fun PersonalInfoScreen(
                         .document(userId)
                         .update(updatedData)
                         .await()
-
-                    // Cập nhật lại userDetails
                     userDetails = userDetails?.toMutableMap()?.apply {
                         putAll(updatedData)
                     }
@@ -113,7 +110,6 @@ fun PersonalInfoScreen(
                     isEditing = false
                     showSuccessMessage = true
                 } catch (e: Exception) {
-                    // Xử lý lỗi khi cập nhật
                 } finally {
                     isSaving = false
                 }
@@ -142,7 +138,6 @@ fun PersonalInfoScreen(
                     navigationIconContentColor = Color.White
                 ),
                 actions = {
-                    // Nút chỉnh sửa/lưu
                     IconButton(
                         onClick = {
                             if (isEditing) {
@@ -201,7 +196,6 @@ fun PersonalInfoScreen(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // Tên người dùng
                     Text(
                         text = user.displayName ?: "Người dùng",
                         fontSize = 24.sp,
@@ -209,7 +203,6 @@ fun PersonalInfoScreen(
                         color = darkGray
                     )
 
-                    // Email
                     Text(
                         text = user.email ?: "",
                         fontSize = 14.sp,
@@ -218,7 +211,6 @@ fun PersonalInfoScreen(
 
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    // Thông tin chi tiết người dùng
                     Card(
                         modifier = Modifier.fillMaxWidth(),
                         colors = CardDefaults.cardColors(
@@ -240,7 +232,6 @@ fun PersonalInfoScreen(
 
                             Spacer(modifier = Modifier.height(16.dp))
 
-                            // Số điện thoại
                             if (isEditing) {
                                 OutlinedTextField(
                                     value = phone,
@@ -284,7 +275,6 @@ fun PersonalInfoScreen(
 
                             Divider(modifier = Modifier.padding(vertical = 12.dp))
 
-                            // Ngày sinh
                             if (isEditing) {
                                 OutlinedTextField(
                                     value = birthDay,
@@ -327,7 +317,6 @@ fun PersonalInfoScreen(
 
                             Divider(modifier = Modifier.padding(vertical = 12.dp))
 
-                            // Giới tính
                             if (isEditing) {
                                 Column(modifier = Modifier.fillMaxWidth()) {
                                     Text(
@@ -389,7 +378,6 @@ fun PersonalInfoScreen(
 
                             Divider(modifier = Modifier.padding(vertical = 12.dp))
 
-                            // Khu vực
                             if (isEditing) {
                                 OutlinedTextField(
                                     value = region,
@@ -441,7 +429,6 @@ fun PersonalInfoScreen(
 
                             Divider(modifier = Modifier.padding(vertical = 12.dp))
 
-                            // Rạp yêu thích
                             if (isEditing) {
                                 OutlinedTextField(
                                     value = favoriteCinema,
@@ -484,8 +471,6 @@ fun PersonalInfoScreen(
 
                             if (isEditing) {
                                 Spacer(modifier = Modifier.height(24.dp))
-
-                                // Nút lưu khi đang chỉnh sửa
                                 Button(
                                     onClick = { saveUserDetails() },
                                     modifier = Modifier.fillMaxWidth(),
@@ -508,7 +493,6 @@ fun PersonalInfoScreen(
                     }
                 }
 
-                // Hiển thị thông báo thành công
                 if (showSuccessMessage) {
                     AlertDialog(
                         onDismissRequest = {

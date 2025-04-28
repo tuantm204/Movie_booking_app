@@ -28,42 +28,38 @@ import androidx.compose.material3.CardDefaults
 fun NewsSection(
     newsList: List<News>,
     onNewsClick: (News) -> Unit,
-    onViewAllClick: () -> Unit = {}
+    onViewAllClick: () -> Unit
 ) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.White) // Đổi màu nền bên ngoài thẻ Card
-            .padding(top = 1.dp, bottom = 1.dp) // Tăng khoảng cách bên ngoài
+            .background(Color.White)
+            .padding(top = 1.dp, bottom = 1.dp)
     ) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp), // Căn lề hai bên
-            colors = CardDefaults.cardColors(containerColor = Color.White) // Đổi màu nền Card về trắng
+                .padding(horizontal = 8.dp),
+            colors = CardDefaults.cardColors(containerColor = Color.White)
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color.White) // Đổi màu nền của Column về trắng
+                    .background(Color.White)
             ) {
-                // Dòng tiêu đề có nút "Tất cả"
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp), // Căn lề cho nội dung bên trong
+                        .padding(horizontal = 16.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    // Tiêu đề phần tin tức
                     Text(
                         text = "Tin tức & Khuyến mãi",
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
                     )
-
-                    // Nút "Tất cả" với viền đen
                     Surface(
                         color = Color.White,
                         shape = RoundedCornerShape(20.dp),
@@ -78,14 +74,12 @@ fun NewsSection(
                         )
                     }
                 }
+                Spacer(modifier = Modifier.height(16.dp))
 
-                Spacer(modifier = Modifier.height(16.dp)) // Khoảng cách giữa tiêu đề và danh sách
-
-                // Danh sách tin tức
                 LazyRow(
-                    contentPadding = PaddingValues(horizontal = 16.dp), // Căn lề cho LazyRow
+                    contentPadding = PaddingValues(horizontal = 16.dp),
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    modifier = Modifier.background(Color.White) // Đổi màu nền của LazyRow về trắng
+                    modifier = Modifier.background(Color.White)
                 ) {
                     items(newsList) { news ->
                         NewsItem(news = news, onClick = { onNewsClick(news) })

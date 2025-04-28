@@ -25,11 +25,12 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.movie_booking_app.data.model.News
 import com.example.movie_booking_app.data.repository.MovieViewModel
+import com.example.movie_booking_app.data.repository.NewsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AllNewsScreen(
-    viewModel: MovieViewModel,
+    viewModel: NewsViewModel,
     onBackClick: () -> Unit,
     onNewsClick: (News) -> Unit
 ) {
@@ -77,14 +78,12 @@ fun AllNewsItem(
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
-            // Ảnh tin tức - phủ toàn bộ card
             AsyncImage(
                 model = news.image,
                 contentDescription = news.title,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
             )
-            // Thông tin tin tức trực tiếp trên ảnh - thêm shadow để đảm bảo đọc được
             Column(
                 modifier = Modifier
                     .align(Alignment.BottomStart)

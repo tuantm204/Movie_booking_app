@@ -30,44 +30,39 @@ fun VideoSection(
     onVideoClick: (Movie) -> Unit,
     onViewAllClick: () -> Unit = {}
 ) {
-    // Lọc các phim có trailer
     val moviesWithTrailer = movies.filter { !it.trailer.isNullOrEmpty() }
 
     if (moviesWithTrailer.isNotEmpty()) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.White) // Đổi màu nền bên ngoài thẻ Card
-                .padding(top = 1.dp, bottom = 1.dp) // Tăng khoảng cách bên ngoài
+                .background(Color.White)
+                .padding(top = 1.dp, bottom = 1.dp)
         ) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp), // Căn lề hai bên
-                colors = CardDefaults.cardColors(containerColor = Color.White) // Đổi màu nền Card về trắng
+                    .padding(horizontal = 8.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.White)
             ) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(Color.White) // Đổi màu nền của Column về trắng
+                        .background(Color.White)
                 ) {
-                    // Dòng tiêu đề có nút "Tất cả"
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp), // Căn lề cho nội dung bên trong
+                            .padding(horizontal = 16.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        // Tiêu đề phần video
                         Text(
                             text = "Videos",
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold,
                             color = Color.Black
                         )
-
-                        // Nút "Tất cả" với viền đen
                         Surface(
                             color = Color.White,
                             shape = RoundedCornerShape(20.dp),
@@ -83,13 +78,11 @@ fun VideoSection(
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(16.dp)) // Khoảng cách giữa tiêu đề và danh sách
-
-                    // Danh sách video trailer
+                    Spacer(modifier = Modifier.height(16.dp))
                     LazyRow(
-                        contentPadding = PaddingValues(horizontal = 16.dp), // Căn lề cho LazyRow
+                        contentPadding = PaddingValues(horizontal = 16.dp),
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.background(Color.White) // Đổi màu nền của LazyRow về trắng
+                        modifier = Modifier.background(Color.White)
                     ) {
                         items(moviesWithTrailer) { movie ->
                             VideoItem(movie = movie, onClick = { onVideoClick(movie) })
@@ -106,13 +99,11 @@ fun VideoItem(
     movie: Movie,
     onClick: () -> Unit
 ) {
-    // Thay thế Card đơn bằng Column để chứa cả video và thông tin
     Column(
         modifier = Modifier
             .width(178.dp)
             .padding(bottom = 8.dp)
     ) {
-        // Phần video thumbnail với icon play
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -122,15 +113,12 @@ fun VideoItem(
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
         ) {
             Box(modifier = Modifier.fillMaxSize()) {
-                // Poster phim làm thumbnail
                 AsyncImage(
                     model = movie.imagelink,
                     contentDescription = "${movie.title} - Trailer",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize()
                 )
-
-                // Icon play ở chính giữa
                 Box(
                     modifier = Modifier
                         .align(Alignment.Center)
@@ -153,16 +141,13 @@ fun VideoItem(
             }
         }
 
-        // Khoảng cách giữa video và thông tin
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Phần thông tin phim bên dưới video
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 4.dp)
         ) {
-            // Tiêu đề phim
             Text(
                 text = movie.title ?: "Unknown",
                 style = MaterialTheme.typography.bodyMedium,
@@ -171,13 +156,11 @@ fun VideoItem(
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
-
-            // Thông tin khởi chiếu trong một Row
             Row(
                 modifier = Modifier.padding(top = 4.dp)
             ) {
                 Text(
-                    text = "Khởi chiếu: ",
+                    text = "KC: ",
                     style = MaterialTheme.typography.bodySmall,
                     fontWeight = FontWeight.Medium,
                     color = Color.Gray

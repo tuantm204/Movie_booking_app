@@ -1,4 +1,4 @@
-package com.example.movie_booking_app.ui.screens
+package com.example.movie_booking_app.ui.screens.News
 
 import android.webkit.WebView
 import androidx.compose.foundation.layout.*
@@ -45,7 +45,6 @@ fun NewsDetailScreen(
                 .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
         ) {
-            // Banner Image
             AsyncImage(
                 model = news.bannerImage.ifEmpty { news.image },
                 contentDescription = news.title,
@@ -54,8 +53,6 @@ fun NewsDetailScreen(
                     .fillMaxWidth()
                     .height(220.dp)
             )
-
-            // Title, Time, Category
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -77,12 +74,8 @@ fun NewsDetailScreen(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Content with WebView
-                // Content with WebView
                 val backgroundColor = MaterialTheme.colorScheme.background
                 val textColor = MaterialTheme.colorScheme.onBackground
-
-// Convert color to hex format for HTML
                 val backgroundColorHex = String.format("#%06X", 0xFFFFFF and backgroundColor.hashCode())
                 val textColorHex = String.format("#%06X", 0xFFFFFF and textColor.hashCode())
 
@@ -91,9 +84,7 @@ fun NewsDetailScreen(
                         WebView(context).apply {
                             settings.javaScriptEnabled = true
                             settings.defaultFontSize = 16
-                            // Set WebView background color
                             setBackgroundColor(android.graphics.Color.TRANSPARENT)
-
                             val htmlData = """
                                 <html>
                                 <head>

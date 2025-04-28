@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.movie_booking_app.data.model.News
 import com.example.movie_booking_app.data.repository.MovieViewModel
+import com.example.movie_booking_app.data.repository.NewsViewModel
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.delay
 
@@ -22,7 +23,7 @@ import kotlinx.coroutines.delay
 fun NewsCarousel(
     newsList: List<News>,
     onNewsClick: (News) -> Unit,
-    viewModel: MovieViewModel
+    viewModel: NewsViewModel
 ) {
     // Giới hạn danh sách tin hiển thị chỉ lấy tối đa 10 tin đầu tiên
     val displayedNews = remember(newsList) {
@@ -35,18 +36,15 @@ fun NewsCarousel(
                 .fillMaxWidth()
                 .padding(top = 8.dp, bottom = 16.dp)
         ) {
-            // Create a separate news pager state
             val newsPagerState = rememberPagerState()
 
-            // Auto-scroll news carousel
             LaunchedEffect(key1 = Unit) {
                 while (true) {
-                    delay(2000) // Delay 2 seconds between auto-scrolls
+                    delay(2000)
                     val nextPage = (newsPagerState.currentPage + 1) % displayedNews.size
                     newsPagerState.animateScrollToPage(nextPage)
                 }
             }
-
             // News Carousel
             Box(
                 modifier = Modifier
@@ -54,15 +52,14 @@ fun NewsCarousel(
                     .height(160.dp)
             ) {
                 HorizontalPager(
-                    count = displayedNews.size,  // Sử dụng displayedNews thay vì newsList
+                    count = displayedNews.size,
                     state = newsPagerState,
                     contentPadding = PaddingValues(horizontal = 32.dp),
                     itemSpacing = 35.dp,
                     modifier = Modifier.fillMaxWidth()
                 ) { page ->
-                    val news = displayedNews[page]  // Sử dụng displayedNews thay vì newsList
+                    val news = displayedNews[page]
 
-                    // News Item Card
                     Card(
                         shape = RoundedCornerShape(16.dp),
                         modifier = Modifier
@@ -81,14 +78,10 @@ fun NewsCarousel(
                                 contentScale = ContentScale.FillBounds,
                                 modifier = Modifier.fillMaxSize()
                             )
-
-                            // Các phần còn lại giữ nguyên
-                            // ...
                         }
                     }
                 }
 
-                // Page indicators - Cũng sử dụng displayedNews
                 Row(
                     Modifier
                         .align(Alignment.BottomCenter)

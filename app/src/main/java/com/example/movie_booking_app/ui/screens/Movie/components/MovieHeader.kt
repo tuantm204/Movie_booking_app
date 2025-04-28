@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -37,7 +38,6 @@ fun MovieHeader(
             .fillMaxWidth()
             .height(360.dp)
     ) {
-        // Trailer background
         AsyncImage(
             model = movie.imagelink,
             contentDescription = movie.title,
@@ -63,7 +63,6 @@ fun MovieHeader(
                 }
         )
 
-        // Nút xem trailer
         Box(
             modifier = Modifier
                 .align(Alignment.TopCenter)
@@ -84,7 +83,6 @@ fun MovieHeader(
             )
         }
 
-        // Phần nền trắng phía dưới
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -93,7 +91,6 @@ fun MovieHeader(
                 .background(MaterialTheme.colorScheme.surface)
         )
 
-        // Layout chứa poster và tiêu đề
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -101,7 +98,6 @@ fun MovieHeader(
                 .align(Alignment.BottomCenter),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Poster phim
             Card(
                 shape = RoundedCornerShape(8.dp),
                 elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
@@ -118,7 +114,6 @@ fun MovieHeader(
                 )
             }
 
-            // Tiêu đề phim và thông tin cơ bản
             Column(
                 modifier = Modifier
                     .padding(start = 16.dp, top = 0.dp)
@@ -138,6 +133,27 @@ fun MovieHeader(
                     InfoChip(icon = Icons.Default.AccessTime, text = movie.duration ?: "N/A")
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun InfoChip(icon: ImageVector, text: String) {
+    Surface(
+        shape = RoundedCornerShape(12.dp),
+        color = MaterialTheme.colorScheme.surfaceVariant,
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                modifier = Modifier.size(14.dp)
+            )
+            Spacer(modifier = Modifier.width(2.dp))
+            Text(text = text, style = MaterialTheme.typography.bodySmall)
         }
     }
 }

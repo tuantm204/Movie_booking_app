@@ -20,6 +20,7 @@ import com.example.movie_booking_app.data.model.Movie
 import com.example.movie_booking_app.data.model.News
 import com.example.movie_booking_app.data.repository.AuthViewModel
 import com.example.movie_booking_app.data.repository.MovieViewModel
+import com.example.movie_booking_app.data.repository.NewsViewModel
 import com.example.movie_booking_app.ui.screens.Home.components.FeaturedNewsItem
 import com.example.movie_booking_app.ui.screens.Home.components.HomeAppBar
 import com.example.movie_booking_app.ui.screens.Home.components.MovieCarousel
@@ -33,22 +34,24 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
 @Composable
 fun Home(
-    viewModel: MovieViewModel,
+    movieViewModel: MovieViewModel,
+    newsViewModel: NewsViewModel,
     authViewModel: AuthViewModel,
     onMovieClick: (Movie) -> Unit,
     onNewsClick: (News) -> Unit,
-    onAllNewsClick: () -> Unit, // Thêm tham số mới này
-    onVideoClick: (Movie) -> Unit = {}, // Thêm tham số cho xử lý click video
-    onAllVideosClick: () -> Unit = {}, // Thêm tham số cho nút "Tất cả" của phần video
-    onLoginClick: () -> Unit = {}, // Thêm callback cho đăng nhập
-    onProfileClick: () -> Unit = {} // Có thể thêm nếu cần
+    onAllNewsClick: () -> Unit,
+    onVideoClick: (Movie) -> Unit = {},
+    onAllVideosClick: () -> Unit = {},
+    onLoginClick: () -> Unit = {},
+    onProfileClick: () -> Unit = {}
 ) {
-    val nowPlayingMovies by viewModel.nowPlayingMovies.collectAsState()
-    val upcomingMovies by viewModel.upcomingMovies.collectAsState()
-    val isLoading by viewModel.isLoading.collectAsState()
-    val error by viewModel.error.collectAsState()
-    val newsList by viewModel.news.collectAsState()
-    val movies by viewModel.movies.collectAsState()
+    val nowPlayingMovies by movieViewModel.nowPlayingMovies.collectAsState()
+    val upcomingMovies by movieViewModel.upcomingMovies.collectAsState()
+    val isLoading by movieViewModel.isLoading.collectAsState()
+    val error by movieViewModel.error.collectAsState()
+    val movies by movieViewModel.movies.collectAsState()
+    val newsList by newsViewModel.news.collectAsState()
+
     // Theo dõi tab đang được chọn
     var selectedTabIndex by remember { mutableStateOf(0) }
     val tabs = listOf("Đang Chiếu", "Sắp Chiếu")
@@ -67,22 +70,20 @@ fun Home(
 
     // Màn hình chính
     Box(modifier = Modifier.fillMaxSize()) {
-        // Hình nền phủ toàn bộ màn hình
         AsyncImage(
             model = "res/drawable/background.png",
             contentDescription = "Background Image",
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(900.dp)
+                .height(830.dp)
                 .zIndex(-1f)
         )
 
-        // Gradient overlay trên cùng ảnh nền để text dễ đọc
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(900.dp)
+                .height(830.dp)
                 .background(
                     brush = Brush.verticalGradient(
                         colors = listOf(
@@ -95,17 +96,22 @@ fun Home(
                 .zIndex(-0.5f)
         )
 
-        // Nội dung chính của màn hình
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White)
+                .zIndex(-2f)
+        )
+
         Column(modifier = Modifier.fillMaxSize()) {
             // App Bar
             HomeAppBar(
                 authViewModel = authViewModel,
                 onLoginClick = onLoginClick,
                 onProfileClick = onProfileClick,
-                onMenuClick = { /* Xử lý menu */ }
+                onMenuClick = {}
             )
 
-            // Phần nội dung chính
             Box(modifier = Modifier.fillMaxSize()) {
                 when {
                     isLoading -> {
@@ -124,7 +130,7 @@ fun Home(
                                 color = Color.White
                             )
                             Spacer(modifier = Modifier.height(16.dp))
-                            Button(onClick = { viewModel.loadMovies() }) {
+                            Button(onClick = { movieViewModel.loadMovies() }) {
                                 Text("Thử lại")
                             }
                         }
@@ -137,15 +143,20 @@ fun Home(
                         )
                     }
                     else -> {
+                        val scrollState = rememberScrollState()
+                        val contentColor by remember {
+                            derivedStateOf {
+                                if (scrollState.value > 830 - 200) Color.Black else Color.White
+                            }
+                        }
+
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .verticalScroll(rememberScrollState())
+                                .verticalScroll(scrollState)
                         ) {
                             Spacer(modifier = Modifier.height(10.dp))
-
-                            // News Section
-                            NewsCarousel(newsList, onNewsClick, viewModel)
+                            NewsCarousel(newsList, onNewsClick, newsViewModel)
 
                             // Tab Row
                             TabRow(
@@ -185,41 +196,24 @@ fun Home(
                                 }
                             }
 
-                            // Movie Carousel
-                            MovieCarousel(currentMoviesList, viewModel, onMovieClick, pagerState)
-
-                            // Thông tin phim hiện tại
+                            MovieCarousel(currentMoviesList, movieViewModel, onMovieClick, pagerState)
                             currentMovie?.let { movie ->
-                                MovieInfo(movie, viewModel, onMovieClick)
+                                MovieInfo(movie, movieViewModel, onMovieClick)
                             }
-
                             Spacer(modifier = Modifier.height(24.dp))
-                            // Phần phim khác
+
                             if (newsList.isNotEmpty()) {
-                                // Lấy tin tức đầu tiên hoặc tin tức được quảng bá (nếu có)
                                 val featuredNews = newsList.find { it.isPromoted } ?: newsList.first()
                                 FeaturedNewsItem(
                                     news = featuredNews,
                                     onNewsClick = onNewsClick
                                 )
                             }
-                            // Thêm phần tin tức mới ở cuối
-                            NewsSection(
-                                newsList = newsList,
-                                onNewsClick = onNewsClick,
-                                onViewAllClick = {
-                                    // Điều hướng đến màn hình tất cả tin tức
-                                    // Vì Home không nắm navController, bạn cần truyền callback từ MovieNavigation
-                                    onAllNewsClick()
-                                }
-                            )
-                            val allMovies = nowPlayingMovies + upcomingMovies
+                            NewsSection(newsList = newsList, onNewsClick = onNewsClick, onViewAllClick = onAllNewsClick)
 
-                            VideoSection(
-                                movies = allMovies,
-                                onVideoClick = onVideoClick,
-                                onViewAllClick = onAllVideosClick // Truyền callback khi click "Tất cả"
-                            )
+                            val allMovies = nowPlayingMovies + upcomingMovies
+                            VideoSection(movies = allMovies, onVideoClick = onVideoClick, onViewAllClick = onAllVideosClick)
+                            Spacer(modifier = Modifier.height(50.dp))
                         }
                     }
                 }

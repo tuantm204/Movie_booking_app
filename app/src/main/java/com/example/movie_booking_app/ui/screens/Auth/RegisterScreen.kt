@@ -381,8 +381,6 @@ fun RegisterScreen(
 
     val regionOptions = cityDistrictMap.keys.toList().sorted()
     val districtOptions = cityDistrictMap[region]?.sorted() ?: emptyList()
-
-    // Danh sách rạp với tiền tố MBA
     val cinemaOptions = listOf(
         "MBA Aeon Mall", "MBA Vincom Center", "MBA Crescent Mall", "MBA Pearl Plaza",
         "MBA Landmark 81", "MBA Royal City", "MBA Times City", "MBA Lotte Center",
@@ -396,29 +394,23 @@ fun RegisterScreen(
     LaunchedEffect(authState) {
         when (authState) {
             is AuthState.Authenticated -> {
-                // Đăng ký thành công
                 isLoading = false
                 successMessage = "Đăng ký thành công!"
-                delay(500) // Đợi 0.5s để hiển thị thông báo thành công
-                onRegisterSuccess() // Điều hướng đến màn hình chính/đăng nhập
+                onRegisterSuccess()
             }
             is AuthState.Error -> {
-                // Đăng ký thất bại
                 isLoading = false
                 errorMessage = (authState as AuthState.Error).message
             }
             AuthState.Loading -> {
-                // Đang xử lý đăng ký
                 isLoading = true
             }
             AuthState.Unauthenticated -> {
-                // Chưa đăng nhập
                 isLoading = false
             }
         }
     }
 
-    // Bố cục màn hình chính
     Scaffold(
         topBar = {
             TopAppBar(
@@ -438,38 +430,35 @@ fun RegisterScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = primaryRed, // Nền màu đỏ cho TopAppBar
-                    titleContentColor = Color.White, // Chữ màu trắng
-                    navigationIconContentColor = Color.White // Icon màu trắng
+                    containerColor = primaryRed,
+                    titleContentColor = Color.White,
+                    navigationIconContentColor = Color.White
                 )
             )
         }
     ) { paddingValues ->
-        // Nội dung chính của màn hình
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .verticalScroll(rememberScrollState()) // Cho phép cuộn khi form dài
-                .background(Color.White), // Nền trắng
+                .verticalScroll(rememberScrollState())
+                .background(Color.White),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Banner hình ảnh
             Image(
                 painter = painterResource(id = R.drawable.banner01),
                 contentDescription = "Banner MBA",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(180.dp), // Chiều cao cố định cho banner
-                contentScale = ContentScale.Crop // Cắt hình để vừa với khung
+                    .height(180.dp),
+                contentScale = ContentScale.Crop
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Form đăng ký
             Column(
                 modifier = Modifier
-                    .padding(horizontal = 24.dp) // Padding hai bên
+                    .padding(horizontal = 24.dp)
                     .fillMaxWidth()
             ) {
                 Text(
@@ -495,7 +484,6 @@ fun RegisterScreen(
                         focusedLabelColor = primaryRed
                     )
                 )
-
                 Spacer(modifier = Modifier.height(16.dp))
 
                 // 2. TRƯỜNG SỐ ĐIỆN THOẠI
@@ -515,7 +503,6 @@ fun RegisterScreen(
                         focusedLabelColor = primaryRed
                     )
                 )
-
                 Spacer(modifier = Modifier.height(16.dp))
 
                 // 3. TRƯỜNG EMAIL
@@ -535,7 +522,6 @@ fun RegisterScreen(
                         focusedLabelColor = primaryRed
                     )
                 )
-
                 Spacer(modifier = Modifier.height(16.dp))
 
                 // 4. TRƯỜNG MẬT KHẨU
@@ -567,7 +553,6 @@ fun RegisterScreen(
                         focusedLabelColor = primaryRed
                     )
                 )
-
                 Spacer(modifier = Modifier.height(16.dp))
 
                 // 5. TRƯỜNG NGÀY SINH - SỬ DỤNG DATE PICKER
@@ -634,19 +619,13 @@ fun RegisterScreen(
                                         val minCalendar = Calendar.getInstance()
                                         minCalendar.set(1950, 0, 1) // 1/1/1950
                                         datePickerDialog?.datePicker?.minDate = minCalendar.timeInMillis
-
-                                        // Không cho phép chọn ngày trong tương lai
                                         datePickerDialog?.datePicker?.maxDate = System.currentTimeMillis()
-
-                                        // Hiển thị DatePicker
                                         datePickerDialog?.show()
                                     }
                                 }
                             }
                         }
                 )
-
-
                 Spacer(modifier = Modifier.height(16.dp))
 
                 // 6. DROPDOWN GIỚI TÍNH
@@ -689,7 +668,6 @@ fun RegisterScreen(
                         }
                     }
                 }
-
                 Spacer(modifier = Modifier.height(16.dp))
 
                 // 7. DROPDOWN KHU VỰC - CẬP NHẬT DANH SÁCH TỈNH THÀNH PHỐ
@@ -715,7 +693,6 @@ fun RegisterScreen(
                             focusedLabelColor = primaryRed
                         )
                     )
-
                     ExposedDropdownMenu(
                         expanded = isRegionExpanded,
                         onDismissRequest = { isRegionExpanded = false },
@@ -734,7 +711,6 @@ fun RegisterScreen(
                         }
                     }
                 }
-
                 Spacer(modifier = Modifier.height(16.dp))
 
                 // 8. DROPDOWN QUẬN/HUYỆN - CẬP NHẬT DỰA TRÊN TỈNH/THÀNH PHỐ ĐÃ CHỌN
@@ -762,7 +738,7 @@ fun RegisterScreen(
                             focusedBorderColor = primaryRed,
                             focusedLabelColor = primaryRed
                         ),
-                        enabled = region.isNotEmpty() // Chỉ enable khi đã chọn thành phố
+                        enabled = region.isNotEmpty()
                     )
 
                     ExposedDropdownMenu(
@@ -770,7 +746,6 @@ fun RegisterScreen(
                         onDismissRequest = { isDistrictExpanded = false },
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        // Hiển thị các quận/huyện tương ứng với thành phố đã chọn
                         districtOptions.forEach { option ->
                             DropdownMenuItem(
                                 text = { Text(option) },
@@ -782,7 +757,6 @@ fun RegisterScreen(
                         }
                     }
                 }
-
                 Spacer(modifier = Modifier.height(16.dp))
 
                 // 9. DROPDOWN RẠP YÊU THÍCH
@@ -808,7 +782,6 @@ fun RegisterScreen(
                             focusedLabelColor = primaryRed
                         )
                     )
-
                     ExposedDropdownMenu(
                         expanded = isCinemaExpanded,
                         onDismissRequest = { isCinemaExpanded = false },
@@ -825,7 +798,6 @@ fun RegisterScreen(
                         }
                     }
                 }
-
                 Spacer(modifier = Modifier.height(16.dp))
 
                 // 10. TRƯỜNG MÃ GIỚI THIỆU (KHÔNG BẮT BUỘC)
@@ -842,10 +814,7 @@ fun RegisterScreen(
                         focusedLabelColor = primaryRed
                     )
                 )
-
                 Spacer(modifier = Modifier.height(24.dp))
-
-                // Hiển thị thông báo lỗi nếu có
                 errorMessage?.let {
                     Text(
                         text = it,
@@ -855,8 +824,6 @@ fun RegisterScreen(
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                 }
-
-                // Hiển thị thông báo thành công nếu có
                 successMessage?.let {
                     Text(
                         text = it,
@@ -936,7 +903,6 @@ fun RegisterScreen(
                         modifier = Modifier.padding(top = 12.dp, start = 4.dp)
                     )
                 }
-
                 Spacer(modifier = Modifier.height(32.dp))
 
                 // 12. NÚT ĐĂNG KÝ
@@ -948,22 +914,16 @@ fun RegisterScreen(
 
                 Button(
                     onClick = {
-                        // Xóa thông báo lỗi/thành công hiện tại
                         errorMessage = null
                         successMessage = null
-
-                        // Kiểm tra các trường bắt buộc
                         if (!isValidEmail(email)) {
                             errorMessage = "Email không hợp lệ"
                             return@Button
                         }
-
                         if (password.length < 6) {
                             errorMessage = "Mật khẩu phải có ít nhất 6 ký tự"
                             return@Button
                         }
-
-                        // Gọi AuthViewModel để đăng ký
                         authViewModel.signUp(
                             email = email,
                             password = password,
@@ -1002,8 +962,6 @@ fun RegisterScreen(
                         )
                     }
                 }
-
-                // Thêm khoảng cách dưới cùng
                 Spacer(modifier = Modifier.height(32.dp))
             }
         }

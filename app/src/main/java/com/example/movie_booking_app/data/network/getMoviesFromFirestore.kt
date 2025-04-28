@@ -24,7 +24,6 @@ suspend fun getMoviesFromFirestore(): List<Movie> {
                 imagelink = document.getString("imagelink"),
                 status = document.getString("status")
             )
-            Log.d("Firestore", "Dữ liệu lấy về: $movie")
             movies.add(movie)
         }
     } catch (e: Exception) {

@@ -41,7 +41,6 @@ fun MovieTrailerDialog(
                 .fillMaxSize()
                 .background(Color.Black)
         ) {
-            // WebView để phát video
             AndroidView(
                 factory = { context ->
                     WebView(context).apply {
@@ -60,7 +59,6 @@ fun MovieTrailerDialog(
                 modifier = Modifier.fillMaxSize()
             )
 
-            // Nút đóng video
             IconButton(
                 onClick = onDismiss,
                 modifier = Modifier

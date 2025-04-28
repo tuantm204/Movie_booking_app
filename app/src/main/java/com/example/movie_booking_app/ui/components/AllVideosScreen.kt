@@ -96,16 +96,13 @@ fun AllVideosScreen(
                         movie = movie,
                         isPlaying = isPlaying,
                         onPlayClick = {
-                            // Nếu nhấn vào video đang phát, dừng nó
                             if (isPlaying) {
                                 currentPlayingVideoId = null
                             } else {
-                                // Nếu không, phát video mới
                                 currentPlayingVideoId = movieId
                             }
                         },
                         onCloseClick = {
-                            // Khi nhấn đóng, dừng video
                             if (currentPlayingVideoId == movieId) {
                                 currentPlayingVideoId = null
                             }
@@ -162,7 +159,6 @@ fun InlineVideoItem(
                         modifier = Modifier.fillMaxSize()
                     )
 
-                    // Nút đóng video
                     IconButton(
                         onClick = onCloseClick,
                         modifier = Modifier
@@ -181,7 +177,6 @@ fun InlineVideoItem(
                     }
                 }
             } else {
-                // Hiển thị thumbnail khi không phát video
                 AsyncImage(
                     model = movie.imagelink,
                     contentDescription = "${movie.title} - Trailer",
@@ -189,7 +184,6 @@ fun InlineVideoItem(
                     modifier = Modifier.fillMaxSize()
                 )
 
-                // Nút play ở chính giữa
                 Box(
                     modifier = Modifier
                         .align(Alignment.Center)
@@ -211,7 +205,6 @@ fun InlineVideoItem(
                     )
                 }
 
-                // Thông tin phim ở dưới cùng
                 Column(
                     modifier = Modifier
                         .align(Alignment.BottomStart)

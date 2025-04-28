@@ -63,8 +63,8 @@ fun LoginScreen(
     var successMessage by remember { mutableStateOf<String?>(null) }
 
     // Màu sắc chính
-    val primaryRed = Color(0xFFE71A0F)  // Màu đỏ chính của CGV
-    val darkGray = Color(0xFF333333)    // Màu xám tối cho text
+    val primaryRed = Color(0xFFE71A0F)
+    val darkGray = Color(0xFF333333)
 
     // Theo dõi trạng thái đăng nhập từ AuthViewModel
     val authState by authViewModel.authState.collectAsState()
@@ -73,36 +73,29 @@ fun LoginScreen(
     LaunchedEffect(authState) {
         when (authState) {
             is AuthState.Authenticated -> {
-                // Đăng nhập thành công
                 isLoading = false
                 successMessage = "Đăng nhập thành công!"
-                delay(500) // Đợi 0.5s để hiển thị thông báo thành công
-                onLoginSuccess() // Điều hướng đến màn hình chính
+                onLoginSuccess()
             }
             is AuthState.Error -> {
-                // Đăng nhập thất bại
                 isLoading = false
                 errorMessage = (authState as AuthState.Error).message
             }
             AuthState.Loading -> {
-                // Đang xử lý đăng nhập
                 isLoading = true
             }
             AuthState.Unauthenticated -> {
-                // Chưa đăng nhập
                 isLoading = false
             }
         }
     }
 
-    // Bố cục màn hình
     Scaffold(
-        // Thanh tiêu đề với nút quay lại
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        "Đăng Nhập", // Tiêu đề màn hình
+                        "Đăng Nhập",
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp
                     )
@@ -116,30 +109,28 @@ fun LoginScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = primaryRed, // Nền màu đỏ cho TopAppBar
-                    titleContentColor = Color.White, // Chữ màu trắng
-                    navigationIconContentColor = Color.White // Icon màu trắng
+                    containerColor = primaryRed,
+                    titleContentColor = Color.White,
+                    navigationIconContentColor = Color.White
                 )
             )
         }
     ) { paddingValues ->
-        // Nội dung chính của màn hình
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .verticalScroll(rememberScrollState()) // Cho phép cuộn khi bàn phím hiện
-                .background(Color.White), // Nền trắng
+                .verticalScroll(rememberScrollState())
+                .background(Color.White),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Banner hình ảnh
             Image(
                 painter = painterResource(id = R.drawable.banner01),
                 contentDescription = "Banner CGV",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp), // Chiều cao cố định cho banner
-                contentScale = ContentScale.Crop // Cắt hình để vừa với khung
+                    .height(200.dp),
+                contentScale = ContentScale.Crop
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -147,7 +138,7 @@ fun LoginScreen(
             // Form đăng nhập
             Column(
                 modifier = Modifier
-                    .padding(horizontal = 24.dp) // Padding hai bên
+                    .padding(horizontal = 24.dp)
                     .fillMaxWidth()
             ) {
                 // Trường nhập email
@@ -155,24 +146,22 @@ fun LoginScreen(
                     value = email,
                     onValueChange = {
                         email = it
-                        // Xóa thông báo lỗi khi người dùng nhập lại
                         errorMessage = null
                     },
                     label = { Text("Email hoặc số điện thoại") },
                     leadingIcon = {
-                        // Icon email ở đầu trường
                         Icon(Icons.Default.Email, contentDescription = null)
                     },
-                    singleLine = true, // Không cho phép xuống dòng
+                    singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Email,
-                        imeAction = ImeAction.Next // Nút Next trên bàn phím
+                        imeAction = ImeAction.Next
                     ),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = primaryRed, // Viền khi focus
-                        focusedLabelColor = primaryRed, // Màu label khi focus
-                        cursorColor = primaryRed // Màu con trỏ
+                        focusedBorderColor = primaryRed,
+                        focusedLabelColor = primaryRed,
+                        cursorColor = primaryRed
                     )
                 )
 
@@ -183,16 +172,13 @@ fun LoginScreen(
                     value = password,
                     onValueChange = {
                         password = it
-                        // Xóa thông báo lỗi khi người dùng nhập lại
                         errorMessage = null
                     },
                     label = { Text("Mật khẩu") },
                     leadingIcon = {
-                        // Icon khóa ở đầu trường
                         Icon(Icons.Default.Lock, contentDescription = null)
                     },
                     trailingIcon = {
-                        // Nút hiện/ẩn mật khẩu
                         IconButton(onClick = { passwordVisible = !passwordVisible }) {
                             Icon(
                                 imageVector = if (passwordVisible)
@@ -203,13 +189,12 @@ fun LoginScreen(
                         }
                     },
                     singleLine = true,
-                    // Ẩn mật khẩu khi passwordVisible = false
                     visualTransformation = if (passwordVisible)
                         VisualTransformation.None else PasswordVisualTransformation(),
                     modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Done // Nút Done trên bàn phím
+                        imeAction = ImeAction.Done
                     ),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = primaryRed,
@@ -220,7 +205,6 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Nút quên mật khẩu
                 Box(modifier = Modifier.fillMaxWidth()) {
                     TextButton(
                         onClick = {
@@ -237,7 +221,7 @@ fun LoginScreen(
                                 errorMessage = "Vui lòng nhập email để đặt lại mật khẩu"
                             }
                         },
-                        modifier = Modifier.align(Alignment.CenterEnd) // Đặt nút bên phải
+                        modifier = Modifier.align(Alignment.CenterEnd)
                     ) {
                         Text(
                             "Quên mật khẩu?",
@@ -246,7 +230,6 @@ fun LoginScreen(
                     }
                 }
 
-                // Hiển thị thông báo lỗi nếu có
                 errorMessage?.let {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
@@ -257,7 +240,6 @@ fun LoginScreen(
                     )
                 }
 
-                // Hiển thị thông báo thành công nếu có
                 successMessage?.let {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
@@ -270,20 +252,16 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Nút đăng nhập
                 Button(
                     onClick = {
-                        // Xóa thông báo lỗi/thành công hiện tại
                         errorMessage = null
                         successMessage = null
 
-                        // Kiểm tra email/password trước khi gửi
                         if (email.isEmpty() || password.isEmpty()) {
                             errorMessage = "Vui lòng nhập đầy đủ thông tin"
                             return@Button
                         }
 
-                        // Gọi hàm đăng nhập từ ViewModel
                         authViewModel.signIn(email, password) { success, message ->
                             if (!success) {
                                 errorMessage = message ?: "Đăng nhập thất bại"
@@ -294,12 +272,11 @@ fun LoginScreen(
                         .fillMaxWidth()
                         .height(48.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = primaryRed // Màu đỏ cho nút
+                        containerColor = primaryRed
                     ),
                     shape = RoundedCornerShape(4.dp),
                     enabled = !isLoading && email.isNotEmpty() && password.isNotEmpty()
                 ) {
-                    // Hiển thị progress indicator khi đang loading
                     if (isLoading) {
                         CircularProgressIndicator(
                             color = Color.White,
@@ -315,7 +292,6 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(32.dp))
 
-                // Phân cách "hoặc"
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
@@ -338,7 +314,6 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(32.dp))
 
-                // Nút đăng ký
                 TextButton(
                     onClick = onRegisterClick,
                     modifier = Modifier.align(Alignment.CenterHorizontally)

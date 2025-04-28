@@ -32,8 +32,8 @@ fun ChangePasswordScreen(
     authViewModel: AuthViewModel,
     onBackClick: () -> Unit
 ) {
-    val primaryRed = Color(0xFFE71A0F)  // Màu đỏ chính
-    val darkGray = Color(0xFF333333)    // Màu xám tối cho text
+    val primaryRed = Color(0xFFE71A0F)
+    val darkGray = Color(0xFF333333)
 
     // State cho form
     var currentPassword by remember { mutableStateOf("") }
@@ -61,20 +61,14 @@ fun ChangePasswordScreen(
     // Hàm validate input
     fun validateInput(): Boolean {
         var isValid = true
-
-        // Reset errors
         currentPasswordError = ""
         newPasswordError = ""
         confirmPasswordError = ""
         generalError = ""
-
-        // Validate current password
         if (currentPassword.isEmpty()) {
             currentPasswordError = "Vui lòng nhập mật khẩu hiện tại"
             isValid = false
         }
-
-        // Validate new password
         if (newPassword.isEmpty()) {
             newPasswordError = "Vui lòng nhập mật khẩu mới"
             isValid = false
@@ -82,8 +76,6 @@ fun ChangePasswordScreen(
             newPasswordError = "Mật khẩu phải có ít nhất 6 ký tự"
             isValid = false
         }
-
-        // Validate confirm password
         if (confirmPassword.isEmpty()) {
             confirmPasswordError = "Vui lòng xác nhận mật khẩu mới"
             isValid = false
@@ -95,7 +87,6 @@ fun ChangePasswordScreen(
         return isValid
     }
 
-    // Hàm thay đổi mật khẩu
     fun changePassword() {
         if (!validateInput()) return
 
@@ -107,19 +98,10 @@ fun ChangePasswordScreen(
                 val user = FirebaseAuth.getInstance().currentUser
 
                 if (user != null && user.email != null) {
-                    // Xác thực lại người dùng với mật khẩu hiện tại
                     val credential = EmailAuthProvider.getCredential(user.email!!, currentPassword)
-
-                    // Xác thực lại trước khi đổi mật khẩu
                     user.reauthenticate(credential).await()
-
-                    // Đổi mật khẩu
                     user.updatePassword(newPassword).await()
-
-                    // Đổi mật khẩu thành công
                     isSuccess = true
-
-                    // Reset form
                     currentPassword = ""
                     newPassword = ""
                     confirmPassword = ""
@@ -176,7 +158,6 @@ fun ChangePasswordScreen(
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Icon mật khẩu
                 Icon(
                     imageVector = Icons.Default.Lock,
                     contentDescription = null,
@@ -187,8 +168,6 @@ fun ChangePasswordScreen(
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
-
-                // Tiêu đề và giải thích
                 Text(
                     text = "Đổi mật khẩu",
                     fontSize = 24.sp,
@@ -205,8 +184,6 @@ fun ChangePasswordScreen(
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))
-
-                // Form đổi mật khẩu
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(
@@ -222,7 +199,6 @@ fun ChangePasswordScreen(
                             .fillMaxWidth()
                             .padding(16.dp)
                     ) {
-                        // Mật khẩu hiện tại
                         OutlinedTextField(
                             value = currentPassword,
                             onValueChange = { currentPassword = it },
@@ -254,7 +230,6 @@ fun ChangePasswordScreen(
 
                         Spacer(modifier = Modifier.height(16.dp))
 
-                        // Mật khẩu mới
                         OutlinedTextField(
                             value = newPassword,
                             onValueChange = { newPassword = it },
@@ -286,7 +261,6 @@ fun ChangePasswordScreen(
 
                         Spacer(modifier = Modifier.height(16.dp))
 
-                        // Xác nhận mật khẩu mới
                         OutlinedTextField(
                             value = confirmPassword,
                             onValueChange = { confirmPassword = it },
@@ -316,7 +290,6 @@ fun ChangePasswordScreen(
                             )
                         )
 
-                        // Hiển thị lỗi chung nếu có
                         if (generalError.isNotEmpty()) {
                             Spacer(modifier = Modifier.height(16.dp))
                             Text(
@@ -328,8 +301,6 @@ fun ChangePasswordScreen(
                         }
 
                         Spacer(modifier = Modifier.height(24.dp))
-
-                        // Nút đổi mật khẩu
                         Button(
                             onClick = { changePassword() },
                             modifier = Modifier.fillMaxWidth(),
@@ -353,7 +324,6 @@ fun ChangePasswordScreen(
                 }
             }
 
-            // Hiển thị dialog khi đổi mật khẩu thành công
             if (isSuccess) {
                 AlertDialog(
                     onDismissRequest = {

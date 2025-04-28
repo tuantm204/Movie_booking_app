@@ -20,6 +20,8 @@ import com.example.movie_booking_app.utils.getAutoPlayUrl
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+
+//Khong dung
 fun TrailerPlayerScreen(
     trailerUrl: String,
     movieTitle: String,
@@ -65,7 +67,6 @@ fun TrailerPlayerScreen(
             }
 
             DisposableEffect(trailerUrl) {
-                // Chuyển đổi URL thành format embed phù hợp (nếu là YouTube)
                 val embedUrl = getAutoPlayUrl(trailerUrl)
                 webView.loadUrl(embedUrl)
 

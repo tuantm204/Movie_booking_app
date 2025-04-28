@@ -1,4 +1,4 @@
-package com.example.movie_booking_app.ui.screens
+package com.example.movie_booking_app.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,11 +13,14 @@ import androidx.navigation.navArgument
 import com.example.movie_booking_app.data.repository.AuthState
 import com.example.movie_booking_app.data.repository.AuthViewModel
 import com.example.movie_booking_app.data.repository.MovieViewModel
+import com.example.movie_booking_app.data.repository.NewsViewModel
 import com.example.movie_booking_app.ui.components.AllNewsScreen
 import com.example.movie_booking_app.ui.components.AllVideosScreen
 import com.example.movie_booking_app.ui.screens.Auth.LoginScreen
 import com.example.movie_booking_app.ui.screens.Auth.RegisterScreen
 import com.example.movie_booking_app.ui.screens.Home.Home
+import com.example.movie_booking_app.ui.screens.MovieDetailScreen
+import com.example.movie_booking_app.ui.screens.News.NewsDetailScreen
 import com.example.movie_booking_app.ui.screens.Profile.ChangePasswordScreen
 import com.example.movie_booking_app.ui.screens.Profile.PersonalInfoScreen
 import com.example.movie_booking_app.ui.screens.Profile.ProfileScreen
@@ -31,7 +34,7 @@ sealed class Screen(val route: String) {
     object NewsDetail : Screen("news_detail")
     object Login : Screen("login")
     object Register : Screen("register")
-    object Profile : Screen("profile") // Thêm route Profile
+    object Profile : Screen("profile")
     object AllNews : Screen("all_news")
     object AllVideos : Screen("all_videos")
     object AllVideosWithParam : Screen("all_videos/{videoToPlay}")
@@ -50,9 +53,10 @@ sealed class Screen(val route: String) {
  * Quản lý điều hướng trong ứng dụng và tích hợp Firebase Authentication
  */
 @Composable
-fun MovieNavigation() {
+fun AppNavigation() {
     val navController = rememberNavController()
     val movieViewModel: MovieViewModel = viewModel()
+    val newsViewModel: NewsViewModel = viewModel() // Khởi tạo NewsViewModel
     val authViewModel: AuthViewModel = viewModel()
 
     // Theo dõi trạng thái đăng nhập để điều hướng phù hợp
@@ -65,14 +69,15 @@ fun MovieNavigation() {
         // 1. ROUTE MÀN HÌNH CHÍNH
         composable(Screen.MovieList.route) {
             Home(
-                viewModel = movieViewModel,
-                authViewModel = authViewModel, // Truyền authViewModel để HomeAppBar sử dụng
+                movieViewModel = movieViewModel,
+                newsViewModel = newsViewModel,
+                authViewModel = authViewModel,
                 onMovieClick = { movie ->
                     val movieId = movie.title ?: "unknown"
                     navController.navigate("movieDetail/$movieId")
                 },
                 onNewsClick = { news ->
-                    movieViewModel.selectNews(news)
+                    newsViewModel.selectNews(news)
                     navController.navigate(Screen.NewsDetail.route)
                 },
                 onAllNewsClick = {
@@ -119,9 +124,10 @@ fun MovieNavigation() {
                             navController.navigate(Screen.Login.route)
                         }
                     },
-                    viewModel = movieViewModel,
+                    movieViewModel = movieViewModel,
+                    newsViewModel = newsViewModel,
                     onNewsClick = { news ->
-                        movieViewModel.selectNews(news)
+                        newsViewModel.selectNews(news)
                         navController.navigate(Screen.NewsDetail.route)
                     },
                     onViewAllNewsClick = {
@@ -133,7 +139,7 @@ fun MovieNavigation() {
 
         // 3. ROUTE CHI TIẾT TIN TỨC
         composable(Screen.NewsDetail.route) {
-            val selectedNews = movieViewModel.selectedNews.collectAsState().value
+            val selectedNews = newsViewModel.selectedNews.collectAsState().value // Thay đổi
 
             if (selectedNews != null) {
                 NewsDetailScreen(
@@ -150,10 +156,10 @@ fun MovieNavigation() {
         // 4. ROUTE TẤT CẢ TIN TỨC
         composable(Screen.AllNews.route) {
             AllNewsScreen(
-                viewModel = movieViewModel,
+                viewModel = newsViewModel, // Thay đổi: Sử dụng NewsViewModel
                 onBackClick = { navController.popBackStack() },
                 onNewsClick = { news ->
-                    movieViewModel.selectNews(news)
+                    newsViewModel.selectNews(news) // Sử dụng NewsViewModel
                     navController.navigate(Screen.NewsDetail.route)
                 }
             )
@@ -164,9 +170,7 @@ fun MovieNavigation() {
             AllVideosScreen(
                 viewModel = movieViewModel,
                 onBackClick = { navController.popBackStack() },
-                onVideoClick = { movie ->
-                    // Xử lý khi bấm vào một video trong trang AllVideosScreen
-                },
+                onVideoClick = { movie -> },
                 initialVideoId = null
             )
         }
@@ -183,9 +187,7 @@ fun MovieNavigation() {
             AllVideosScreen(
                 viewModel = movieViewModel,
                 onBackClick = { navController.popBackStack() },
-                onVideoClick = { movie ->
-                    // Xử lý khi bấm vào một video trong trang AllVideosScreen
-                },
+                onVideoClick = { movie -> },
                 initialVideoId = videoToPlay
             )
         }
@@ -197,11 +199,9 @@ fun MovieNavigation() {
                 onBackClick = { navController.popBackStack() },
                 onRegisterClick = { navController.navigate(Screen.Register.route) },
                 onLoginSuccess = {
-                    // Quay lại màn hình trước đó sau khi đăng nhập thành công
                     navController.popBackStack()
                 },
                 onForgotPasswordClick = {
-                    // Có thể điều hướng đến màn hình quên mật khẩu nếu có
                     // navController.navigate("forgot_password")
                 }
             )
@@ -213,7 +213,6 @@ fun MovieNavigation() {
                 authViewModel = authViewModel,
                 onBackClick = { navController.popBackStack() },
                 onRegisterSuccess = {
-                    // Sau khi đăng ký thành công, quay lại màn hình đăng nhập
                     navController.popBackStack()
                 }
             )
@@ -228,13 +227,13 @@ fun MovieNavigation() {
                 onChangePasswordClick = { navController.navigate("change_password") },
                 onTransactionHistoryClick = { navController.navigate("transaction_history") },
                 onLogoutClick = {
-                    // Sau khi đăng xuất quay về trang chủ
                     navController.navigate("home") {
                         popUpTo("home") { inclusive = true }
                     }
                 }
             )
         }
+
         // Thêm route cho màn hình thông tin cá nhân
         composable("personal_info") {
             PersonalInfoScreen(
@@ -242,6 +241,7 @@ fun MovieNavigation() {
                 onBackClick = { navController.popBackStack() }
             )
         }
+
         // Trong navigation system của bạn
         composable("change_password") {
             ChangePasswordScreen(

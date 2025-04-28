@@ -30,7 +30,6 @@ fun HomeAppBar(
 ) {
     val authState by authViewModel.authState.collectAsState()
     val isAuthenticated = authState is AuthState.Authenticated
-
     TopAppBar(
         title = {
             Box(
@@ -45,7 +44,6 @@ fun HomeAppBar(
             }
         },
         navigationIcon = {
-            // Avatar bên trái - điều hướng tùy theo trạng thái đăng nhập
             Box(
                 modifier = Modifier
                     .padding(start = 8.dp)
@@ -54,17 +52,13 @@ fun HomeAppBar(
                     .border(1.dp, Color.White.copy(alpha = 0.5f), CircleShape)
                     .clickable {
                         if (isAuthenticated) {
-                            // Người dùng đã đăng nhập, mở trang profile
                             onProfileClick()
                         } else {
-                            // Người dùng chưa đăng nhập, mở trang đăng nhập
                             onLoginClick()
                         }
                     }
             ) {
-                // Hiển thị avatar khác nếu đã đăng nhập
                 if (isAuthenticated) {
-                    // Có thể hiển thị avatar của người dùng hoặc chữ cái đầu của tên
                     val user = (authState as AuthState.Authenticated).user
                     Text(
                         text = user.displayName?.first()?.toString() ?: "U",
@@ -73,7 +67,6 @@ fun HomeAppBar(
                         fontWeight = FontWeight.Bold
                     )
                 } else {
-                    // Icon người dùng mặc định
                     Icon(
                         imageVector = Icons.Default.Person,
                         contentDescription = "Đăng nhập",
@@ -86,7 +79,6 @@ fun HomeAppBar(
             }
         },
         actions = {
-            // Menu 3 gạch bên phải
             IconButton(onClick = onMenuClick) {
                 Icon(
                     imageVector = Icons.Default.Menu,

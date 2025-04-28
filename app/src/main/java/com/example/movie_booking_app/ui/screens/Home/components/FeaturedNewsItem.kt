@@ -29,17 +29,15 @@ fun FeaturedNewsItem(
                 .fillMaxWidth()
                 .padding(24.dp)
         ) {
-            // Ảnh tin tức lớn có bo góc
             Card(
                 shape = RoundedCornerShape(16.dp),
                 elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .aspectRatio(16f/9f) // Tỷ lệ ảnh tin tức thông thường
+                    .aspectRatio(16f/9f)
                     .clickable { onNewsClick(news) }
             ) {
                 Box {
-                    // Ảnh tin tức
                     AsyncImage(
                         model = news.image,
                         contentDescription = news.title,
