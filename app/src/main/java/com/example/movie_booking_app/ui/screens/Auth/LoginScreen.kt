@@ -31,18 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.movie_booking_app.R
 import com.example.movie_booking_app.data.repository.AuthState
-import com.example.movie_booking_app.data.repository.AuthViewModel
-import kotlinx.coroutines.delay
+import com.example.movie_booking_app.viewmodel.AuthViewModel
 
-/**
- * Màn hình đăng nhập với Firebase Authentication
- *
- * @param authViewModel ViewModel xử lý logic đăng nhập với Firebase
- * @param onBackClick Callback khi người dùng bấm nút quay lại
- * @param onRegisterClick Callback khi người dùng bấm nút đăng ký
- * @param onLoginSuccess Callback khi đăng nhập thành công
- * @param onForgotPasswordClick Callback khi người dùng bấm quên mật khẩu
- */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(

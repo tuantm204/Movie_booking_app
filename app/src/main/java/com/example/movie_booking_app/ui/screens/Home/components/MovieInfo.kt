@@ -15,8 +15,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.movie_booking_app.data.model.Movie
-import com.example.movie_booking_app.data.repository.MovieViewModel
+import com.example.movie_booking_app.viewmodel.MovieViewModel
 
+//thong tin phim
 @Composable
 fun MovieInfo(
     movie: Movie,

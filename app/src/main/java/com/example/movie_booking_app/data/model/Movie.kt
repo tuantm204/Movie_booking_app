@@ -1,17 +1,18 @@
 package com.example.movie_booking_app.data.model
 
+//Phim
 data class Movie(
-    val id: String = "",
-    val title: String? = null,
-    val director: String? = null,
-    val actors: String? = null,
-    val genre: String? = null,
-    val releaseDate: String? = null,
-    val duration: String? = null,
-    val language: String? = null,
-    val rated: String? = null,
-    val details: String? = null,
-    val trailer: String? = null,
-    val imagelink: String? = null,
-    val status: String? = null
+    val id: String,
+    val title: String = "",
+    val imagelink: String = "",
+    val genre: String = "",
+    val duration: String = "",
+    val rated: String = "",
+    val status: String = "",
+    val releaseDate: String = "",
+    val director: String = "",
+    val actors: String = "",
+    val language: String = "",
+    val details: String = "",
+    val trailer: String = ""
 )

@@ -1,5 +1,6 @@
 package com.example.movie_booking_app.data.model
 
+//Tin tức
 data class News(
     val id: String = "",
     val title: String = "",

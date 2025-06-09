@@ -16,8 +16,14 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+
+        // Cách khai báo flatDir trong .kts
+        flatDir {
+            dirs("libs", "../app/libs")
+        }
     }
 }
+// ...phần còn lại giữ nguyên...
 
 rootProject.name = "Movie-booking-app"
 include(":app")

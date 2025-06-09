@@ -18,9 +18,9 @@ import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
 import com.example.movie_booking_app.data.model.Movie
 import com.example.movie_booking_app.data.model.News
-import com.example.movie_booking_app.data.repository.AuthViewModel
-import com.example.movie_booking_app.data.repository.MovieViewModel
-import com.example.movie_booking_app.data.repository.NewsViewModel
+import com.example.movie_booking_app.viewmodel.AuthViewModel
+import com.example.movie_booking_app.viewmodel.MovieViewModel
+import com.example.movie_booking_app.viewmodel.NewsViewModel
 import com.example.movie_booking_app.ui.screens.Home.components.FeaturedNewsItem
 import com.example.movie_booking_app.ui.screens.Home.components.HomeAppBar
 import com.example.movie_booking_app.ui.screens.Home.components.MovieCarousel
@@ -31,7 +31,6 @@ import com.example.movie_booking_app.ui.screens.Home.components.VideoSection
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
 @Composable
 fun Home(
     movieViewModel: MovieViewModel,
@@ -43,7 +42,8 @@ fun Home(
     onVideoClick: (Movie) -> Unit = {},
     onAllVideosClick: () -> Unit = {},
     onLoginClick: () -> Unit = {},
-    onProfileClick: () -> Unit = {}
+    onProfileClick: () -> Unit = {},
+    onTicketsClick: () -> Unit = {}
 ) {
     val nowPlayingMovies by movieViewModel.nowPlayingMovies.collectAsState()
     val upcomingMovies by movieViewModel.upcomingMovies.collectAsState()
@@ -109,7 +109,7 @@ fun Home(
                 authViewModel = authViewModel,
                 onLoginClick = onLoginClick,
                 onProfileClick = onProfileClick,
-                onMenuClick = {}
+                onTicketsClick = onTicketsClick
             )
 
             Box(modifier = Modifier.fillMaxSize()) {
@@ -149,7 +149,6 @@ fun Home(
                                 if (scrollState.value > 830 - 200) Color.Black else Color.White
                             }
                         }
-
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
@@ -157,8 +156,6 @@ fun Home(
                         ) {
                             Spacer(modifier = Modifier.height(10.dp))
                             NewsCarousel(newsList, onNewsClick, newsViewModel)
-
-                            // Tab Row
                             TabRow(
                                 selectedTabIndex = selectedTabIndex,
                                 containerColor = Color.Transparent,

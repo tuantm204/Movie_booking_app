@@ -1,0 +1,80 @@
+Tên|cột	Mô tả|Kiểu Dữ liệu|Not null
+
+Movies	Danh sách phim	actors	Mảng các diễn viên tham gia trong bộ phim
+		details	Mô tả chi tiết về nội dung, cốt truyện của bộ phim
+		director	Tên đạo diễn của bộ phim
+		duration	Thời gian chiếu của bộ phim tính bằng phút
+		genre	Thể loại của bộ phim (hành động, tình cảm, hài hước, v.v.)
+		imagelink	Đường dẫn đến hình ảnh poster của bộ phim
+		language	 Ngôn ngữ của bộ phim (Tiếng Việt, Tiếng Anh, v.v.)
+		rated	Xếp hạng độ tuổi của bộ phim (PG, R, v.v.)
+		releaseDate	Ngày phát hành bộ phim
+		status	Trạng thái bộ phim (đang chiếu, sắp chiếu)
+		title	Tên bộ phim
+		trailer	Link video trailer của bộ phim
+News	Tin tức và khuyến mãi	bannerImage	Hình ảnh banner của tin tức hoặc khuyến mãi
+		category	Loại tin tức (ví dụ: Khuyến mãi, Giới thiệu phim, etc.)
+		content	Nội dung chi tiết của tin tức hoặc khuyến mãi
+		image	Hình ảnh liên quan đến tin tức.
+		isPromoted	Cờ chỉ ra liệu tin tức này có phải là khuyến mãi nổi bật hay không
+		time	Thời gian tin tức được đăng tải
+		timestamp	Mốc thời gian chính xác khi tin tức được đăng
+		title	Tiêu đề của tin tức
+Users	Người dùng	birthDay	Ngày sinh của người dùng
+		createdAt	Thời gian tài khoản người dùng được tạo
+		district	Nơi người dùng sinh sống
+		email	Địa chỉ email của người dùng
+		favoriteCinema	Tên cụm rạp yêu thích của người dùng
+		fullName	Tên đầy đủ của người dùng
+		gender	Giới tính của người dùng
+		phone	Số điện thoại của người dùng
+		region	Khu vực sinh sống của người dùng
+Theaters	Cụm rạp	theaterId 	ID duy nhất của cụm rạp
+		name	Tên của cụm rạp
+		location	Địa chỉ hoặc vị trí map của cụm rạp 
+		city	Thành phố nơi cụm rạp nằm
+		contact	Số điện thoại hoặc email của cụm rạp
+		facilities 	Danh sách các tiện ích tại cụm rạp (ví dụ: "Wi-Fi", "Bãi đậu xe", "Phòng VIP").
+		openTime	Thời gian mở cửa của cụm rạp (ví dụ: "08:00 AM")
+		closeTime 	Thời gian đóng cửa của cụm rạp (ví dụ: "11:00 PM").
+Rooms	Phòng chiếu	roomId	ID duy nhất của phòng chiếu
+		theaterId 	ID của cụm rạp mà phòng chiếu thuộc về
+		name	Tên của phòng chiếu (ví dụ: "Phòng chiếu 1", "Phòng VIP")
+		seatingCapacity	Số lượng ghế trong phòng chiếu
+		screenType	Loại màn hình của phòng chiếu (ví dụ: "2D", "3D", "IMAX")
+		availableSeats	Số ghế còn trống trong phòng chiếu
+		facilities	Các tiện ích trong phòng chiếu (ví dụ: "Ghế xoay", "Ghế VIP", "Máy chiếu 4K")
+		seatMatrix	Ma trận ghế ngồi trong phòng chiếu(Trong đó lưu trạng thái của từng ghế ghế, )
+Schedules	Suất chiếu	scheduleId	ID duy nhất của suất chiếu.
+		movieId	ID của bộ phim đang chiếu
+		roomId	ID của phòng chiếu nơi bộ phim sẽ được chiếu
+		startTime	Thời gian bắt đầu suất chiếu (định dạng timestamp)
+		endTime	Thời gian kết thúc suất chiếu (định dạng timestamp)
+		price	Giá vé cho suất chiếu này
+		language	Ngôn ngữ bộ phim (ví dụ: "Tiếng Việt", "Tiếng Anh")
+		availableSeats	Số ghế còn trống trong suất chiếu này
+Bookings	Lịch sử đặt vé	bookingId	ID duy nhất của vé đã đặt
+		userId 	ID của người dùng đã đặt vé
+		scheduleId	ID của suất chiếu mà người dùng đã chọn
+		movieId	ID của bộ phim
+		roomId	ID của phòng chiếu
+		seats	Mảng các ghế đã chọn (ví dụ: ["A1", "A2", "B5"])
+		totalPrice	Tổng giá vé cho các ghế đã chọn
+		bookingTime	Thời gian đặt vé
+		status	Trạng thái của vé (ví dụ: "Đã thanh toán", "Chờ thanh toán", "Đã huỷ")
+Reviews	Đánh giá phim	reviewId	ID duy nhất của đánh giá
+		movieId 	ID của bộ phim được đánh giá
+		userId	ID của người dùng đã viết đánh giá
+		rating 	Điểm đánh giá (ví dụ: từ 1 đến 5)
+		comment 	Nhận xét của người dùng về bộ phim
+		reviewDate	Thời gian người dùng viết đánh giá
+		helpfulVotes	Số lượng "like" hoặc "vote" mà đánh giá nhận được
+Promotions	Ưu đãi	promotionId	ID duy nhất của ưu đãi
+		title	Tiêu đề của ưu đãi (ví dụ: "Mua 1 tặng 1", "Giảm 50% vé xem phim")
+		description	Mô tả chi tiết về ưu đãi
+		startDate	Ngày bắt đầu của ưu đãi
+		endDate	Ngày kết thúc của ưu đãi
+		discountPercentage	Tỷ lệ giảm giá (ví dụ: 20%)
+		movieIds 	Mảng các ID phim mà ưu đãi áp dụng
+		isActive	Trạng thái ưu đãi (đang hoạt động hay đã hết hạn)
+		image	Hình ảnh của ưu đãi (ví dụ: banner quảng cáo)

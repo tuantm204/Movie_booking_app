@@ -16,11 +16,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import coil.compose.AsyncImage
 import com.example.movie_booking_app.data.model.Movie
-import com.example.movie_booking_app.data.repository.MovieViewModel
+import com.example.movie_booking_app.viewmodel.MovieViewModel
 import com.google.accompanist.pager.*
 import kotlin.math.absoluteValue
 
-@OptIn(ExperimentalPagerApi::class)
+//Phim
 @Composable
 fun MovieCarousel(
     currentMoviesList: List<Movie>,
@@ -30,7 +30,6 @@ fun MovieCarousel(
 ) {
     val originalSize = currentMoviesList.size
     val coroutineScope = rememberCoroutineScope()
-
     // Tạo danh sách vô hạn
     val virtualInfiniteList = remember(currentMoviesList) {
         if (currentMoviesList.isNotEmpty()) {
@@ -73,19 +72,16 @@ fun MovieCarousel(
                             )
                             scaleX = scale
                             scaleY = scale
-
                             alpha = lerp(
                                 start = 0.7f,
                                 stop = 1f,
                                 fraction = 1f - pageOffset.coerceIn(0f, 1f)
                             )
-
                             rotationY = lerp(
                                 start = 15f,
                                 stop = 0f,
                                 fraction = 1f - pageOffset.coerceIn(0f, 1f)
                             ) * if (pagerState.currentPage > page) -1 else 1
-
                             var translationZ = lerp(
                                 start = -15f,
                                 stop = 0f,

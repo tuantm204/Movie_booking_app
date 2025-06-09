@@ -1,5 +1,6 @@
 package com.example.movie_booking_app.utils
 
+//Chuyển đổi URL video thông thường thành URL có chức năng tự động phát (autoplay)
 fun getAutoPlayUrl(url: String): String {
     return when {
         url.contains("youtube.com") -> {

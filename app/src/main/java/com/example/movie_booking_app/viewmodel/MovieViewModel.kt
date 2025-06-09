@@ -1,18 +1,19 @@
-package com.example.movie_booking_app.data.repository
+package com.example.movie_booking_app.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_booking_app.data.model.Movie
-import com.example.movie_booking_app.data.network.getMoviesFromFirestore
+import com.example.movie_booking_app.data.repository.MovieRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class MovieViewModel : ViewModel() {
+    private val repository = MovieRepository()
+
     private val _movies = MutableStateFlow<List<Movie>>(emptyList())
     val movies: StateFlow<List<Movie>> = _movies
 
-    // StateFlow riêng cho phim đang chiếu và sắp chiếu
     private val _nowPlayingMovies = MutableStateFlow<List<Movie>>(emptyList())
     val nowPlayingMovies: StateFlow<List<Movie>> = _nowPlayingMovies
 
@@ -32,15 +33,14 @@ class MovieViewModel : ViewModel() {
         loadMovies()
     }
 
+    //Tải phim
     fun loadMovies() {
         viewModelScope.launch {
             _isLoading.value = true
             _error.value = null
             try {
-                val allMovies = getMoviesFromFirestore()
+                val allMovies = repository.getMoviesFromFirestore()
                 _movies.value = allMovies
-
-                // Phân loại phim
                 classifyMovies(allMovies)
             } catch (e: Exception) {
                 _error.value = e.message
@@ -59,10 +59,9 @@ class MovieViewModel : ViewModel() {
             when (movie.status) {
                 "Đang chiếu" -> nowPlaying.add(movie)
                 "Sắp chiếu" -> upcoming.add(movie)
-                else -> nowPlaying.add(movie) // Mặc định thêm vào đang chiếu nếu status không rõ
+                else -> nowPlaying.add(movie)
             }
         }
-
         _nowPlayingMovies.value = nowPlaying
         _upcomingMovies.value = upcoming
     }

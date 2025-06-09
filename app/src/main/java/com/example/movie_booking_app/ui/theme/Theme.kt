@@ -9,6 +9,7 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
@@ -56,3 +57,12 @@ fun MoviebookingappTheme(
         content = content
     )
 }
+
+// Thêm các màu mới
+val Red700 = Color(0xFFD32F2F)
+val Green500 = Color(0xFF4CAF50)
+val Blue500 = Color(0xFF2196F3)
+val Orange500 = Color(0xFFFF9800)
+val Pink500 = Color(0xFFE91E63)
+val Purple500 = Color(0xFF9C27B0)
+val Gray200 = Color(0xFFEEEEEE)

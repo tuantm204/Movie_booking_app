@@ -19,7 +19,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.movie_booking_app.data.repository.AuthViewModel
+import com.example.movie_booking_app.data.repository.AuthState
+import com.example.movie_booking_app.viewmodel.AuthViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -36,8 +37,8 @@ fun PersonalInfoScreen(
     // Lấy thông tin user hiện tại từ AuthViewModel
     val authState by authViewModel.authState.collectAsState()
     val user = remember(authState) {
-        if (authState is com.example.movie_booking_app.data.repository.AuthState.Authenticated) {
-            (authState as com.example.movie_booking_app.data.repository.AuthState.Authenticated).user
+        if (authState is AuthState.Authenticated) {
+            (authState as AuthState.Authenticated).user
         } else null
     }
 

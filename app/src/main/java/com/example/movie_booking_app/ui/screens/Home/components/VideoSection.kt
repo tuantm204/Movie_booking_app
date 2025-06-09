@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.movie_booking_app.data.model.Movie
 
+//tat ca video
 @Composable
 fun VideoSection(
     movies: List<Movie>,

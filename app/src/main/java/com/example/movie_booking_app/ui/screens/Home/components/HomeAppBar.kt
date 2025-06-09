@@ -5,7 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.ConfirmationNumber
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -18,18 +18,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.movie_booking_app.data.repository.AuthState
-import com.example.movie_booking_app.data.repository.AuthViewModel
+import com.example.movie_booking_app.viewmodel.AuthViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+//Top
 fun HomeAppBar(
     authViewModel: AuthViewModel,
     onLoginClick: () -> Unit = {},
     onProfileClick: () -> Unit = {},
-    onMenuClick: () -> Unit = {}
+    onTicketsClick: () -> Unit = {}
 ) {
     val authState by authViewModel.authState.collectAsState()
     val isAuthenticated = authState is AuthState.Authenticated
+
     TopAppBar(
         title = {
             Box(
@@ -79,10 +81,18 @@ fun HomeAppBar(
             }
         },
         actions = {
-            IconButton(onClick = onMenuClick) {
+            IconButton(
+                onClick = {
+                    if (isAuthenticated) {
+                        onTicketsClick()
+                    } else {
+                        onLoginClick()
+                    }
+                }
+            ) {
                 Icon(
-                    imageVector = Icons.Default.Menu,
-                    contentDescription = "Menu",
+                    imageVector = Icons.Default.ConfirmationNumber,
+                    contentDescription = "Vé của tôi",
                     tint = Color.White
                 )
             }

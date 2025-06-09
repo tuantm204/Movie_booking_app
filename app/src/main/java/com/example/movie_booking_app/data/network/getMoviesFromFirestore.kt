@@ -4,30 +4,34 @@ import com.example.movie_booking_app.data.model.Movie
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
+// Hoặc nơi bạn lấy dữ liệu phim từ Firestore
+
 suspend fun getMoviesFromFirestore(): List<Movie> {
-    val db = FirebaseFirestore.getInstance()
-    val movies = mutableListOf<Movie>()
-    try {
-        val result = db.collection("Movies").get().await()
-        for (document in result) {
-            val movie = Movie(
-                title = document.getString("title"),
-                director = document.getString("director"),
-                actors = document.getString("actors"),
-                genre = document.getString("genre"),
-                releaseDate = document.getString("releaseDate"),
-                duration = document.getString("duration"),
-                language = document.getString("language"),
-                rated = document.getString("rated"),
-                details = document.getString("details"),
-                trailer = document.getString("trailer"),
-                imagelink = document.getString("imagelink"),
-                status = document.getString("status")
+    val firestore = FirebaseFirestore.getInstance()
+    return try {
+        val snapshot = firestore.collection("Movies")
+            .get()
+            .await()
+
+        snapshot.documents.map { doc ->
+            Movie(
+                id = doc.id, // Sử dụng ID của document làm movie ID
+                title = doc.getString("title") ?: "",
+                imagelink = doc.getString("imagelink") ?: "",
+                genre = doc.getString("genre") ?: "",
+                duration = doc.getString("duration") ?: "",
+                rated = doc.getString("rated") ?: "",
+                status = doc.getString("status") ?: "",
+                releaseDate = doc.getString("releaseDate") ?: "",
+                director = doc.getString("director") ?: "",
+                actors = doc.getString("actors") ?: "",
+                language = doc.getString("language") ?: "",
+                details = doc.getString("details") ?: "",
+                trailer = doc.getString("trailer") ?: ""
             )
-            movies.add(movie)
         }
     } catch (e: Exception) {
-        Log.e("Firestore", "Lỗi khi lấy dữ liệu: ${e.message}")
+        Log.e("MovieRepository", "Lỗi khi lấy phim: ${e.message}")
+        emptyList()
     }
-    return movies
 }

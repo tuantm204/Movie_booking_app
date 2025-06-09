@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.movie_booking_app.data.model.News
 
+//Tin tuc noi bat duoi phim
 @Composable
 fun FeaturedNewsItem(
     news: News,

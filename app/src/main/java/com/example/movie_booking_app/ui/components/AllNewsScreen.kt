@@ -24,8 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.movie_booking_app.data.model.News
-import com.example.movie_booking_app.data.repository.MovieViewModel
-import com.example.movie_booking_app.data.repository.NewsViewModel
+import com.example.movie_booking_app.viewmodel.NewsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

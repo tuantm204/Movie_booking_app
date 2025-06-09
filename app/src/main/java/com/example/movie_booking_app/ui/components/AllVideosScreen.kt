@@ -33,7 +33,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
 import com.example.movie_booking_app.data.model.Movie
-import com.example.movie_booking_app.data.repository.MovieViewModel
+import com.example.movie_booking_app.viewmodel.MovieViewModel
 import com.example.movie_booking_app.utils.getAutoPlayUrl
 
 @OptIn(ExperimentalMaterial3Api::class)

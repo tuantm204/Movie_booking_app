@@ -27,20 +27,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.movie_booking_app.R
-import com.example.movie_booking_app.data.repository.AuthState
-import com.example.movie_booking_app.data.repository.AuthViewModel
-import kotlinx.coroutines.delay
+import com.example.movie_booking_app.viewmodel.AuthViewModel
 import java.util.Calendar
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
+import com.example.movie_booking_app.data.repository.AuthState
 
-/**
- * Màn hình đăng ký với Firebase Authentication
- *
- * @param authViewModel ViewModel xử lý logic đăng ký với Firebase
- * @param onBackClick Callback khi người dùng bấm nút quay lại
- * @param onRegisterSuccess Callback khi đăng ký thành công
- */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(
@@ -80,17 +72,9 @@ fun RegisterScreen(
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var successMessage by remember { mutableStateOf<String?>(null) }
 
-    // Màu sắc chính
-    val primaryRed = Color(0xFFE71A0F)  // Màu đỏ chính của MBA
-    val darkGray = Color(0xFF333333)    // Màu xám tối cho text
+    val primaryRed = Color(0xFFE71A0F)
+    val darkGray = Color(0xFF333333)
 
-    // Context cho DatePicker
-    val context = LocalContext.current
-
-    // Calendar instance cho DatePicker
-    val calendar = Calendar.getInstance()
-
-    // Danh sách giá trị cho các dropdown
     val genderOptions = listOf("Nam", "Nữ", "Khác")
 
     // DANH SÁCH ĐẦY ĐỦ TỈNH THÀNH PHỐ VIỆT NAM VÀ QUẬN HUYỆN
@@ -968,11 +952,6 @@ fun RegisterScreen(
     }
 }
 
-/**
- * Hàm kiểm tra email có hợp lệ
- * @param email Email cần kiểm tra
- * @return true nếu email hợp lệ, false nếu không
- */
 fun isValidEmail(email: String): Boolean {
     val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
     return email.matches(emailPattern.toRegex())

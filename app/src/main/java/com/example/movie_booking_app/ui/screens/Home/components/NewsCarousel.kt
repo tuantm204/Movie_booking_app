@@ -14,11 +14,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.movie_booking_app.data.model.News
-import com.example.movie_booking_app.data.repository.MovieViewModel
-import com.example.movie_booking_app.data.repository.NewsViewModel
+import com.example.movie_booking_app.viewmodel.NewsViewModel
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.delay
 
+//10 tin tuc dau tien
 @Composable
 fun NewsCarousel(
     newsList: List<News>,

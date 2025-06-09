@@ -24,6 +24,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 
+//Tat ca tin tuc
 @Composable
 fun NewsSection(
     newsList: List<News>,
@@ -95,7 +96,6 @@ fun NewsItem(
     news: News,
     onClick: () -> Unit
 ) {
-    // Box ngoài cùng có viền đen, không bo góc
     Box(
         modifier = Modifier
             .width(178.dp)
@@ -104,7 +104,6 @@ fun NewsItem(
             .background(Color.White) // Nền trắng
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
-            // Phần ảnh tin tức - chỉ bo góc phần ảnh
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -116,7 +115,7 @@ fun NewsItem(
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .fillMaxSize()
-                        .clip(RoundedCornerShape(8.dp)) // Chỉ bo góc cho ảnh
+                        .clip(RoundedCornerShape(8.dp))
                 )
 
                 // Tag "Hot" nếu là tin được quảng bá
@@ -138,7 +137,6 @@ fun NewsItem(
                 }
             }
 
-            // Phần nội dung tin tức - không bo góc, chữ trên nền trắng
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -151,9 +149,7 @@ fun NewsItem(
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
-
                 Spacer(modifier = Modifier.height(4.dp))
-
                 Text(
                     text = news.time,
                     style = MaterialTheme.typography.bodySmall,

@@ -1,20 +1,20 @@
-package com.example.movie_booking_app.data.repository
+package com.example.movie_booking_app.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_booking_app.data.model.News
-import com.example.movie_booking_app.data.network.getNewsFromFirestore
+import com.example.movie_booking_app.data.repository.NewsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class NewsViewModel : ViewModel() {
-    // StateFlow để quản lý dữ liệu tin tức
+    private val repository = NewsRepository()
+
     private val _news = MutableStateFlow<List<News>>(emptyList())
     val news: StateFlow<List<News>> = _news.asStateFlow()
 
-    // StateFlow để giữ tin tức được chọn
     private val _selectedNews = MutableStateFlow<News?>(null)
     val selectedNews: StateFlow<News?> = _selectedNews.asStateFlow()
 
@@ -28,12 +28,12 @@ class NewsViewModel : ViewModel() {
         loadNews()
     }
 
-    // Function để lấy dữ liệu tin tức từ Firebase
+    //Tải Tin tức
     fun loadNews() {
         viewModelScope.launch {
             try {
                 _isLoading.value = true
-                val newsList = getNewsFromFirestore()
+                val newsList = repository.getNewsFromFirestore()
                 _news.value = newsList
                 _error.value = null
             } catch (e: Exception) {
@@ -44,7 +44,7 @@ class NewsViewModel : ViewModel() {
         }
     }
 
-    // Function để chọn tin tức
+    //Chọn tin tức
     fun selectNews(news: News) {
         _selectedNews.value = news
     }
