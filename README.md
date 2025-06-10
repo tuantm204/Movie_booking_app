@@ -139,7 +139,7 @@ app/
 ```
 MIT License
 
-Copyright (c) 2024 Your Name
+Copyright (c) 2024 Truong Manh Tuan
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -172,9 +172,9 @@ Mọi đóng góp đều được hoan nghênh! Vui lòng:
 
 ## 📞 Liên hệ
 
-- Email: your.email@example.com
-- LinkedIn: [Your Name](https://linkedin.com/in/your-profile)
-- GitHub: [@your-username](https://github.com/your-username)
+- Email: mtuan74204@gmail.com
+- LinkedIn: [Your Name](www.linkedin.com/in/tuantm204)
+- GitHub: [@your-username](https://github.com/tuantm204)
 
 ## 🙏 Cảm ơn
 
