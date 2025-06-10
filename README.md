@@ -173,8 +173,8 @@ Mọi đóng góp đều được hoan nghênh! Vui lòng:
 ## 📞 Liên hệ
 
 - Email: mtuan74204@gmail.com
-- LinkedIn: [Your Name](www.linkedin.com/in/tuantm204)
-- GitHub: [@your-username](https://github.com/tuantm204)
+- LinkedIn: www.linkedin.com/in/tuantm204
+- GitHub: https://github.com/tuantm204
 
 ## 🙏 Cảm ơn
 
